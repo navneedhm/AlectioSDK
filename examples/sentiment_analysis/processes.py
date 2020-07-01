@@ -30,7 +30,7 @@ def getdatasetstate(args={}):
     return {k: k for k in range(25000)}
 
 def train(args, labeled, resume_from, ckpt_file):
-
+    print("labeled", labeled)
     rnn_model = RNNModel()
 
     batch_size = args["batch_size"]
@@ -76,7 +76,7 @@ def train(args, labeled, resume_from, ckpt_file):
 
 def test(args, ckpt_file):
 
-    batch_size = args["batch_size"]
+    batch_size = 64 #args["batch_size"]
     labeled_test = tf.data.Dataset.from_generator(lambda:test_dset, (tf.float32, tf.float32), (tf.TensorShape([None]), tf.TensorShape([]))).padded_batch(batch_size)
 
     predictions, targets = [], []
@@ -123,6 +123,6 @@ if __name__ == "__main__":
     resume_from = None
     ckpt_file = "ckpt_0"
 
-    train(labeled=labeled, resume_from=resume_from, ckpt_file=ckpt_file)
-    # test(ckpt_file=ckpt_file)
+    # train(labeled=labeled, resume_from=resume_from, ckpt_file=ckpt_file)
+    test(ckpt_file=ckpt_file)
     # infer(unlabeled=[10, 20, 30], ckpt_file=ckpt_file)
